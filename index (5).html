@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Robin Park — Cellist · Teacher · Arranger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════ */
+:root {
+  --cream:    #f8f4ef;
+  --warm:     #f0e9df;
+  --charcoal: #1c1a18;
+  --brown:    #3a2e25;
+  --gold:     #b8935a;
+  --gold-lt:  #d4ad7a;
+  --muted:    #7a6f65;
+  --border:   #ddd5c8;
+  --serif:    'Cormorant Garamond', Georgia, serif;
+  --sans:     'Jost', sans-serif;
+  --ease:     cubic-bezier(.4,0,.2,1);
+}
+
+/* ═══════════════════════════════════════
+   RESET / BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--charcoal);
+  min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: var(--sans); }
+
+/* ═══════════════════════════════════════
+   NOISE TEXTURE OVERLAY
+═══════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* ═══════════════════════════════════════
+   NAV
+═══════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px;
+  height: 72px;
+  background: rgba(248,244,239,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow .3s var(--ease);
+}
+nav.scrolled { box-shadow: 0 2px 24px rgba(60,40,20,.08); }
+
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  color: var(--charcoal);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.nav-logo span { color: var(--gold); }
+
+.nav-links {
+  display: flex; gap: 36px; list-style: none;
+}
+.nav-links a {
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color .2s;
+  position: relative;
+  padding-bottom: 2px;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -2px; left: 0; right: 100%;
+  height: 1px; background: var(--gold);
+  transition: right .25s var(--ease);
+}
+.nav-links a:hover, .nav-links a.active { color: var(--charcoal); }
+.nav-links a:hover::after, .nav-links a.active::after { right: 0; }
+
+.nav-hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; padding: 4px;
+}
+.nav-hamburger span {
+  display: block; width: 24px; height: 1.5px;
+  background: var(--charcoal);
+  transition: transform .25s, opacity .25s;
+}
+
+/* ═══════════════════════════════════════
+   PAGES SYSTEM
+═══════════════════════════════════════ */
+.page { display: none; padding-top: 72px; }
+.page.active { display: block; }
+
+/* ═══════════════════════════════════════
+   ── HOME PAGE ──
+═══════════════════════════════════════ */
+.hero {
+  min-height: calc(100vh - 72px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+.hero-left {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 80px 64px 80px 80px;
+  position: relative; z-index: 2;
+}
+.hero-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 400;
+  margin-bottom: 28px;
+  opacity: 0; animation: fadeUp .8s .2s var(--ease) forwards;
+}
+.hero-name {
+  font-family: var(--serif);
+  font-size: clamp(3.5rem, 6vw, 6rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+  opacity: 0; animation: fadeUp .8s .35s var(--ease) forwards;
+}
+.hero-name em {
+  font-style: italic;
+  color: var(--brown);
+}
+.hero-tagline {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 48px;
+  opacity: 0; animation: fadeUp .8s .5s var(--ease) forwards;
+}
+.hero-divider {
+  width: 48px; height: 1px; background: var(--gold);
+  margin-bottom: 32px;
+  opacity: 0; animation: fadeUp .8s .6s var(--ease) forwards;
+}
+.hero-roles {
+  display: flex; gap: 24px; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp .8s .7s var(--ease) forwards;
+}
+.hero-role {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 300;
+}
+.hero-role + .hero-role::before {
+  content: '·';
+  margin-right: 24px;
+  color: var(--gold);
+}
+.hero-cta {
+  margin-top: 56px;
+  display: flex; gap: 16px; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp .8s .85s var(--ease) forwards;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--charcoal);
+  color: var(--cream);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border: 1px solid var(--charcoal);
+  transition: background .25s, color .25s, border-color .25s;
+}
+.btn-primary:hover { background: var(--gold); border-color: var(--gold); }
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent;
+  color: var(--charcoal);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border: 1px solid var(--border);
+  transition: border-color .25s, color .25s;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+.hero-right {
+  position: relative;
+  background: var(--warm);
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-illustration {
+  width: 100%; height: 100%;
+  position: absolute; inset: 0;
+}
+.hero-art-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(184,147,90,.08) 0%, transparent 60%);
+}
+/* Decorative cello silhouette via SVG */
+.hero-cello-wrap {
+  position: relative; z-index: 2;
+  opacity: 0; animation: fadeIn 1.2s .6s var(--ease) forwards;
+  text-align: center;
+}
+.hero-quote {
+  position: absolute; bottom: 48px; left: 48px; right: 48px;
+  z-index: 3;
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--brown);
+  opacity: 0; animation: fadeUp .8s 1s var(--ease) forwards;
+  border-left: 2px solid var(--gold);
+  padding-left: 20px;
+  line-height: 1.6;
+}
+
+/* Floating stat cards */
+.hero-stats {
+  position: absolute; bottom: 80px; right: -24px;
+  display: flex; flex-direction: column; gap: 12px;
+  z-index: 4;
+  opacity: 0; animation: fadeIn .8s 1.1s var(--ease) forwards;
+}
+.stat-card {
+  background: white;
+  border: 1px solid var(--border);
+  padding: 16px 24px;
+  box-shadow: 0 4px 24px rgba(60,40,20,.08);
+  min-width: 160px;
+}
+.stat-num {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* Scroll indicator */
+.scroll-hint {
+  position: absolute; bottom: 32px; left: 80px;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0; animation: fadeIn 1s 1.4s var(--ease) forwards;
+}
+.scroll-line {
+  width: 40px; height: 1px; background: var(--gold);
+  animation: scaleX 2s 1.6s ease-in-out infinite;
+  transform-origin: left;
+}
+
+/* Highlights strip */
+.home-highlights {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--border);
+}
+.highlight-item {
+  padding: 48px 40px;
+  border-right: 1px solid var(--border);
+  cursor: pointer;
+  transition: background .25s;
+  position: relative;
+  overflow: hidden;
+}
+.highlight-item:last-child { border-right: none; }
+.highlight-item::before {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 100%;
+  height: 2px; background: var(--gold);
+  transition: right .35s var(--ease);
+}
+.highlight-item:hover { background: var(--warm); }
+.highlight-item:hover::before { right: 0; }
+.highlight-icon {
+  font-size: 1.6rem; margin-bottom: 16px;
+}
+.highlight-title {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin-bottom: 10px;
+  color: var(--charcoal);
+}
+.highlight-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.highlight-arrow {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  transition: letter-spacing .2s;
+}
+.highlight-item:hover .highlight-arrow { letter-spacing: 0.22em; }
+
+
+/* ═══════════════════════════════════════
+   ── ABOUT PAGE ──
+═══════════════════════════════════════ */
+.page-header {
+  padding: 72px 80px 48px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.page-header::before {
+  content: attr(data-label);
+  position: absolute; right: 80px; top: 50%; transform: translateY(-50%);
+  font-family: var(--serif);
+  font-size: 9rem;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(184,147,90,.07);
+  line-height: 1;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.page-title {
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: var(--charcoal);
+}
+.page-title em { color: var(--gold); font-style: italic; }
+.page-subtitle {
+  font-size: 0.82rem;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+
+/* Tabs */
+.tab-bar {
+  display: flex; border-bottom: 1px solid var(--border);
+  padding: 0 80px;
+  background: var(--cream);
+}
+.tab-btn {
+  background: none; border: none;
+  padding: 20px 0;
+  margin-right: 40px;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  position: relative;
+  transition: color .2s;
+}
+.tab-btn::after {
+  content: '';
+  position: absolute; bottom: -1px; left: 0; right: 100%;
+  height: 2px; background: var(--gold);
+  transition: right .25s var(--ease);
+}
+.tab-btn.active { color: var(--charcoal); }
+.tab-btn.active::after { right: 0; }
+.tab-btn:hover { color: var(--charcoal); }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Bio layout */
+.bio-layout {
+  display: grid; grid-template-columns: 1fr 340px;
+  gap: 80px;
+  padding: 72px 80px;
+  max-width: 1400px;
+}
+#bio-title {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: var(--gold);
+  margin-bottom: 32px;
+  font-style: italic;
+}
+#bio-text p {
+  font-family: var(--serif);
+  font-size: 1.08rem;
+  font-weight: 300;
+  color: var(--brown);
+  line-height: 1.9;
+  margin-bottom: 24px;
+}
+.bio-sidebar {}
+.bio-sidebar-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+#bio-highlights {
+  list-style: none;
+}
+#bio-highlights li {
+  font-size: 0.86rem;
+  color: var(--charcoal);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; gap: 12px;
+}
+#bio-highlights li::before {
+  content: '—';
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Repertoire */
+#tab-repertoire { padding: 72px 80px; }
+
+/* ═══════════════════════════════════════
+   ── LESSONS PAGE ──
+═══════════════════════════════════════ */
+.lessons-intro {
+  padding: 72px 80px 48px;
+  max-width: 700px;
+}
+.lessons-intro p {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.lessons-offerings { padding: 0 80px 64px; }
+.lessons-offerings-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+.lessons-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-bottom: 72px;
+}
+.lesson-card {
+  background: var(--cream);
+  padding: 40px 36px;
+  transition: background .25s;
+}
+.lesson-card:hover { background: var(--warm); }
+.lesson-card-icon { font-size: 1.8rem; margin-bottom: 20px; }
+.lesson-card h3 {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin-bottom: 12px;
+  color: var(--charcoal);
+}
+.lesson-card p { font-size: 0.84rem; color: var(--muted); line-height: 1.7; }
+
+.pricing-section { padding: 0 80px 80px; }
+.pricing-section-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.pricing-card {
+  background: var(--cream);
+  padding: 44px 36px;
+  position: relative;
+  transition: background .25s;
+}
+.pricing-card:hover { background: var(--warm); }
+.pricing-card.featured {
+  background: var(--charcoal);
+  color: var(--cream);
+}
+.pricing-card.featured:hover { background: var(--brown); }
+.pricing-badge {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  display: block;
+}
+.pricing-duration {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.pricing-card.featured .pricing-duration { color: rgba(248,244,239,.5); }
+.pricing-amount {
+  font-family: var(--serif);
+  font-size: 3.5rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+}
+.pricing-card.featured .pricing-amount { color: var(--cream); }
+.pricing-amount sup { font-size: 1.2rem; vertical-align: top; margin-top: 8px; }
+.pricing-period { font-size: 0.75rem; color: var(--muted); margin-bottom: 28px; }
+.pricing-card.featured .pricing-period { color: rgba(248,244,239,.5); }
+.pricing-features { list-style: none; }
+.pricing-features li {
+  font-size: 0.82rem;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 10px; align-items: flex-start;
+  color: var(--charcoal);
+}
+.pricing-card.featured .pricing-features li { border-color: rgba(255,255,255,.1); color: rgba(248,244,239,.8); }
+.pricing-features li::before { content: '✓'; color: var(--gold); flex-shrink: 0; }
+
+/* ═══════════════════════════════════════
+   ── SCHEDULE PAGE ──
+═══════════════════════════════════════ */
+.schedule-wrap { padding: 64px 80px; }
+.schedule-table-wrap { overflow-x: auto; }
+.schedule-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.86rem;
+}
+.schedule-table th {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 400;
+  padding: 0 20px 16px 0;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.schedule-table td {
+  padding: 20px 20px 20px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--charcoal);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.schedule-table tr:hover td { background: var(--warm); }
+.badge {
+  display: inline-block;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 0;
+}
+.badge-gold { background: rgba(184,147,90,.12); color: var(--gold); border: 1px solid rgba(184,147,90,.3); }
+.badge-dark { background: var(--charcoal); color: var(--cream); }
+
+/* Repertoire table */
+.repertoire-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+.repertoire-table th {
+  font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); font-weight: 400;
+  padding: 0 20px 16px 0; text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.repertoire-table td {
+  padding: 16px 20px 16px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--charcoal);
+}
+.repertoire-table tr:hover td { background: var(--warm); }
+
+/* ═══════════════════════════════════════
+   ── MEDIA PAGE ──
+═══════════════════════════════════════ */
+.media-wrap { padding: 64px 80px; }
+.media-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.media-card { background: var(--cream); overflow: hidden; }
+.media-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--warm);
+  overflow: hidden;
+  position: relative;
+}
+.media-thumb iframe {
+  width: 100%; height: 100%;
+  border: none;
+}
+.media-thumb-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem;
+  background: var(--warm);
+  color: rgba(184,147,90,.4);
+}
+.media-info { padding: 24px 28px; }
+.media-type {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.media-title {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--charcoal);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.media-subtitle { font-size: 0.8rem; color: var(--muted); margin-bottom: 16px; }
+.media-link {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid rgba(184,147,90,.3);
+  padding-bottom: 2px;
+  transition: border-color .2s;
+  display: inline-block;
+}
+.media-link:hover { border-color: var(--gold); }
+
+/* ═══════════════════════════════════════
+   ── SHEET MUSIC PAGE ──
+═══════════════════════════════════════ */
+.sheet-wrap { padding: 64px 80px; }
+.sheet-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.sheet-card {
+  background: var(--cream);
+  padding: 32px 28px;
+  transition: background .25s;
+}
+.sheet-card:hover { background: var(--warm); }
+.sheet-cat {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sheet-title {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+.sheet-instr {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-style: italic;
+}
+.sheet-desc { font-size: 0.8rem; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+.sheet-link {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  background: var(--warm);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  display: inline-block;
+  transition: background .2s, border-color .2s;
+}
+.sheet-link:hover { background: var(--gold); border-color: var(--gold); color: white; }
+
+/* ═══════════════════════════════════════
+   ── CONTACT PAGE ──
+═══════════════════════════════════════ */
+.contact-layout {
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: calc(100vh - 72px - 140px);
+}
+.contact-left {
+  padding: 72px 64px 72px 80px;
+  border-right: 1px solid var(--border);
+}
+.contact-right {
+  padding: 72px 80px 72px 64px;
+  background: var(--warm);
+}
+.contact-lead {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--brown);
+  margin-bottom: 48px;
+  line-height: 1.5;
+  max-width: 440px;
+}
+.contact-methods { display: flex; flex-direction: column; gap: 0; }
+.contact-method {
+  display: flex; align-items: flex-start; gap: 20px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+  transition: background .2s;
+}
+.contact-method:first-child { border-top: 1px solid var(--border); }
+.contact-method-icon {
+  width: 40px; height: 40px;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  color: var(--gold);
+}
+.contact-method-info {}
+.contact-method-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.contact-method-value {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--charcoal);
+}
+.contact-method-value a { transition: color .2s; }
+.contact-method-value a:hover { color: var(--gold); }
+
+/* Form */
+.form-title {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--charcoal);
+  margin-bottom: 36px;
+}
+.form-group { margin-bottom: 24px; }
+.form-label {
+  display: block;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  background: white;
+  border: 1px solid var(--border);
+  padding: 12px 16px;
+  font-family: var(--sans);
+  font-size: 0.86rem;
+  color: var(--charcoal);
+  outline: none;
+  transition: border-color .2s;
+  appearance: none;
+  border-radius: 0;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--gold);
+}
+.form-textarea { resize: vertical; min-height: 130px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-submit {
+  width: 100%;
+  background: var(--charcoal);
+  color: var(--cream);
+  border: 1px solid var(--charcoal);
+  padding: 16px;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: background .25s;
+  margin-top: 8px;
+}
+.form-submit:hover { background: var(--gold); border-color: var(--gold); }
+.form-success {
+  display: none;
+  margin-top: 16px;
+  padding: 16px 20px;
+  background: rgba(184,147,90,.1);
+  border: 1px solid rgba(184,147,90,.3);
+  font-size: 0.84rem;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════
+   ── FOOTER ──
+═══════════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 80px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 24px;
+}
+.footer-name {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--muted);
+}
+.footer-copy {
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.footer-links {
+  display: flex; gap: 28px; list-style: none;
+}
+.footer-links a {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color .2s;
+}
+.footer-links a:hover { color: var(--gold); }
+
+/* ═══════════════════════════════════════
+   LOADING / ERROR STATES
+═══════════════════════════════════════ */
+.loading-text {
+  color: var(--muted);
+  font-style: italic;
+  font-family: var(--serif);
+  font-size: 1rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+.error-text { color: #b85a5a; font-size: 0.84rem; line-height: 1.6; }
+.section-text { padding: 40px 0; font-size: 0.9rem; color: var(--muted); }
+
+/* ═══════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+@keyframes scaleX {
+  0%, 100% { transform: scaleX(1); }
+  50%       { transform: scaleX(1.5); }
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .hero-left { padding: 60px 40px; }
+  .bio-layout { grid-template-columns: 1fr; gap: 48px; }
+  .contact-layout { grid-template-columns: 1fr; }
+  .contact-left { border-right: none; border-bottom: 1px solid var(--border); padding: 48px 40px; }
+  .contact-right { padding: 48px 40px; }
+  .home-highlights { grid-template-columns: 1fr; }
+  .highlight-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .lessons-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; flex-direction: column; gap: 0;
+    position: fixed; top: 72px; left: 0; right: 0; bottom: 0;
+    background: var(--cream); padding: 32px 24px;
+    border-top: 1px solid var(--border); z-index: 99; }
+  .nav-links.open { display: flex; }
+  .nav-links li a { display: block; padding: 16px 0; font-size: 0.9rem; border-bottom: 1px solid var(--border); }
+  .nav-hamburger { display: flex; }
+  .page-header { padding: 48px 24px 32px; }
+  .page-header::before { display: none; }
+  .tab-bar { padding: 0 24px; }
+  .bio-layout, #tab-repertoire, .lessons-intro, .lessons-offerings, .pricing-section,
+  .schedule-wrap, .media-wrap, .sheet-wrap { padding-left: 24px; padding-right: 24px; }
+  .hero-left { padding: 48px 24px; }
+  footer { padding: 32px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════ NAV -->
+<nav id="mainNav">
+  <div class="nav-logo" onclick="showPage('home')">Robin <span>Park</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#" data-page="about" onclick="showPage('about');return false;">About</a></li>
+    <li><a href="#" data-page="lessons" onclick="showPage('lessons');return false;">Lessons</a></li>
+    <li><a href="#" data-page="schedule" onclick="showPage('schedule');return false;">Schedule</a></li>
+    <li><a href="#" data-page="media" onclick="showPage('media');return false;">Media</a></li>
+    <li><a href="#" data-page="sheet-music" onclick="showPage('sheet-music');return false;">Sheet Music</a></li>
+    <li><a href="#" data-page="contact" onclick="showPage('contact');return false;">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ══════════════════════════════════════ HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Cellist · Teacher · Arranger</p>
+      <h1 class="hero-name">Robin<br/><em>Park</em></h1>
+      <p class="hero-tagline">Music that moves, teaching that transforms.</p>
+      <div class="hero-divider"></div>
+      <div class="hero-roles">
+        <span class="hero-role">Performance</span>
+        <span class="hero-role">Private Lessons</span>
+        <span class="hero-role">Arrangements</span>
+      </div>
+      <div class="hero-cta">
+        <a class="btn-primary" href="#" onclick="showPage('contact');return false;">Get in Touch</a>
+        <a class="btn-outline" href="#" onclick="showPage('about');return false;">Learn More</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-art-overlay"></div>
+      <div class="hero-cello-wrap">
+        <!-- Elegant cello SVG illustration -->
+        <svg width="220" height="440" viewBox="0 0 220 440" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Scroll/peg box -->
+          <ellipse cx="110" cy="28" rx="14" ry="10" fill="none" stroke="#b8935a" stroke-width="1.5"/>
+          <line x1="110" y1="18" x2="110" y2="8" stroke="#b8935a" stroke-width="1.5"/>
+          <ellipse cx="110" cy="6" rx="6" ry="4" fill="none" stroke="#b8935a" stroke-width="1"/>
+          <!-- Neck -->
+          <rect x="103" y="36" width="14" height="70" rx="2" fill="none" stroke="#b8935a" stroke-width="1.5"/>
+          <!-- Nut -->
+          <rect x="101" y="103" width="18" height="5" rx="1" fill="#b8935a" opacity=".5"/>
+          <!-- Upper bout -->
+          <path d="M110 108 C75 108 52 128 52 155 C52 175 65 188 80 196" stroke="#b8935a" stroke-width="1.5" fill="none"/>
+          <path d="M110 108 C145 108 168 128 168 155 C168 175 155 188 140 196" stroke="#b8935a" stroke-width="1.5" fill="none"/>
+          <!-- Waist (C-bouts) -->
+          <path d="M80 196 C68 202 60 210 60 220 C60 230 68 238 80 244" stroke="#b8935a" stroke-width="1.5" fill="none"/>
+          <path d="M140 196 C152 202 160 210 160 220 C160 230 152 238 140 244" stroke="#b8935a" stroke-width="1.5" fill="none"/>
+          <!-- Lower bout -->
+          <path d="M80 244 C62 254 46 272 46 300 C46 334 72 360 110 360" stroke="#b8935a" stroke-width="1.5" fill="none"/>
+          <path d="M140 244 C158 254 174 272 174 300 C174 334 148 360 110 360" stroke="#b8935a" stroke-width="1.5" fill="none"/>
+          <!-- Bottom button -->
+          <line x1="110" y1="360" x2="110" y2="370" stroke="#b8935a" stroke-width="2"/>
+          <circle cx="110" cy="373" r="4" fill="#b8935a" opacity=".6"/>
+          <!-- F-holes -->
+          <path d="M88 205 C86 208 85 212 86 215 C87 218 90 220 90 223 C90 226 87 228 86 232" stroke="#b8935a" stroke-width="1" fill="none" opacity=".7"/>
+          <path d="M132 205 C134 208 135 212 134 215 C133 218 130 220 130 223 C130 226 133 228 134 232" stroke="#b8935a" stroke-width="1" fill="none" opacity=".7"/>
+          <!-- Bridge -->
+          <rect x="97" y="270" width="26" height="3" rx="1" fill="#b8935a" opacity=".6"/>
+          <!-- Strings (4) -->
+          <line x1="103" y1="107" x2="100" y2="370" stroke="#b8935a" stroke-width="0.6" opacity=".4"/>
+          <line x1="107" y1="107" x2="105" y2="370" stroke="#b8935a" stroke-width="0.6" opacity=".4"/>
+          <line x1="113" y1="107" x2="115" y2="370" stroke="#b8935a" stroke-width="0.6" opacity=".4"/>
+          <line x1="117" y1="107" x2="120" y2="370" stroke="#b8935a" stroke-width="0.6" opacity=".4"/>
+          <!-- Tuning pegs -->
+          <line x1="96" y1="48" x2="108" y2="52" stroke="#b8935a" stroke-width="2"/>
+          <line x1="124" y1="48" x2="112" y2="52" stroke="#b8935a" stroke-width="2"/>
+          <line x1="96" y1="60" x2="108" y2="63" stroke="#b8935a" stroke-width="2"/>
+          <line x1="124" y1="60" x2="112" y2="63" stroke="#b8935a" stroke-width="2"/>
+          <!-- Decorative dots -->
+          <circle cx="110" cy="200" r="60" fill="rgba(184,147,90,.04)" stroke="none"/>
+          <circle cx="110" cy="300" r="75" fill="rgba(184,147,90,.03)" stroke="none"/>
+        </svg>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Years teaching</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Passion for music</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="home-highlights">
+    <div class="highlight-item" onclick="showPage('about')">
+      <div class="highlight-icon">🎻</div>
+      <div class="highlight-title">Biography &amp; Repertoire</div>
+      <div class="highlight-desc">Classically trained cellist with a versatile repertoire spanning baroque to contemporary.</div>
+      <div class="highlight-arrow">Explore →</div>
+    </div>
+    <div class="highlight-item" onclick="showPage('lessons')">
+      <div class="highlight-icon">🎓</div>
+      <div class="highlight-title">Private Lessons</div>
+      <div class="highlight-desc">Tailored cello instruction for all levels — from first-time beginners to advanced students.</div>
+      <div class="highlight-arrow">Learn more →</div>
+    </div>
+    <div class="highlight-item" onclick="showPage('sheet-music')">
+      <div class="highlight-icon">📄</div>
+      <div class="highlight-title">Arrangements</div>
+      <div class="highlight-desc">Original arrangements and transcriptions available for purchase and download.</div>
+      <div class="highlight-arrow">Browse →</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-name">Robin Park</div>
+    <ul class="footer-links">
+      <li><a href="#" onclick="showPage('about');return false;">About</a></li>
+      <li><a href="#" onclick="showPage('lessons');return false;">Lessons</a></li>
+      <li><a href="#" onclick="showPage('contact');return false;">Contact</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Robin Park. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════ ABOUT -->
+<div class="page" id="page-about">
+  <div class="page-header" data-label="About">
+    <p class="page-subtitle">Who I Am</p>
+    <h2 class="page-title">Robin <em>Park</em></h2>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="bio" onclick="switchTab('bio')">Biography</button>
+    <button class="tab-btn" data-tab="repertoire" onclick="switchTab('repertoire')">Repertoire</button>
+  </div>
+  <div class="tab-panel active" id="tab-bio">
+    <div class="bio-layout">
+      <div>
+        <div id="bio-title">Cellist &amp; Educator</div>
+        <div id="bio-text"><p class="loading-text">Loading biography…</p></div>
+      </div>
+      <div class="bio-sidebar">
+        <div class="bio-sidebar-title">Highlights</div>
+        <ul id="bio-highlights"><li class="loading-text">Loading…</li></ul>
+      </div>
+    </div>
+  </div>
+  <div class="tab-panel" id="tab-repertoire">
+    <div id="repertoire-container" style="padding:72px 80px;">
+      <p class="loading-text">Loading repertoire…</p>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-name">Robin Park</div>
+    <ul class="footer-links">
+      <li><a href="#" onclick="showPage('home');return false;">Home</a></li>
+      <li><a href="#" onclick="showPage('contact');return false;">Contact</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Robin Park</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════ LESSONS -->
+<div class="page" id="page-lessons">
+  <div class="page-header" data-label="Lessons">
+    <p class="page-subtitle">Study With Me</p>
+    <h2 class="page-title">Cello <em>Lessons</em></h2>
+  </div>
+  <div class="lessons-intro">
+    <p id="lessons-intro-text">Tailored instruction for all levels, from beginners to advanced students.</p>
+  </div>
+  <div class="lessons-offerings">
+    <div class="lessons-offerings-title">What We Cover</div>
+    <div id="lessons-grid-container">
+      <div class="lessons-grid">
+        <div class="lesson-card"><div class="lesson-card-icon">🎵</div><h3>Technique</h3><p class="loading-text">Loading…</p></div>
+        <div class="lesson-card"><div class="lesson-card-icon">🎼</div><h3>Repertoire</h3><p class="loading-text">Loading…</p></div>
+        <div class="lesson-card"><div class="lesson-card-icon">📖</div><h3>Theory</h3><p class="loading-text">Loading…</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="pricing-section">
+    <div class="pricing-section-title">Lesson Rates</div>
+    <div class="pricing-grid" id="pricing-grid">
+      <p class="loading-text section-text" style="grid-column:1/-1">Loading pricing…</p>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-name">Robin Park</div>
+    <ul class="footer-links">
+      <li><a href="#" onclick="showPage('contact');return false;">Book a Lesson</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Robin Park</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════ SCHEDULE -->
+<div class="page" id="page-schedule">
+  <div class="page-header" data-label="Schedule">
+    <p class="page-subtitle">Upcoming Events</p>
+    <h2 class="page-title">Performance <em>Schedule</em></h2>
+  </div>
+  <div class="schedule-wrap">
+    <div id="schedule-container"><p class="loading-text">Loading schedule…</p></div>
+  </div>
+  <footer>
+    <div class="footer-name">Robin Park</div>
+    <ul class="footer-links">
+      <li><a href="#" onclick="showPage('contact');return false;">Inquire</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Robin Park</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════ MEDIA -->
+<div class="page" id="page-media">
+  <div class="page-header" data-label="Media">
+    <p class="page-subtitle">Recordings &amp; Performances</p>
+    <h2 class="page-title">Media <em>Gallery</em></h2>
+  </div>
+  <div class="media-wrap">
+    <div id="media-container"><p class="loading-text">Loading media…</p></div>
+  </div>
+  <footer>
+    <div class="footer-name">Robin Park</div>
+    <ul class="footer-links">
+      <li><a href="#" onclick="showPage('contact');return false;">Contact</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Robin Park</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════ SHEET MUSIC -->
+<div class="page" id="page-sheet-music">
+  <div class="page-header" data-label="Arrangements">
+    <p class="page-subtitle">Scores &amp; Arrangements</p>
+    <h2 class="page-title">Sheet <em>Music</em></h2>
+  </div>
+  <div class="sheet-wrap">
+    <div id="sheet-container"><p class="loading-text">Loading sheet music…</p></div>
+  </div>
+  <footer>
+    <div class="footer-name">Robin Park</div>
+    <ul class="footer-links">
+      <li><a href="#" onclick="showPage('contact');return false;">Custom Arrangements</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Robin Park</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════ CONTACT -->
+<div class="page" id="page-contact">
+  <div class="page-header" data-label="Contact">
+    <p class="page-subtitle">Get In Touch</p>
+    <h2 class="page-title">Let's <em>Connect</em></h2>
+  </div>
+  <div class="contact-layout">
+    <div class="contact-left">
+      <p class="contact-lead">Whether you're interested in lessons, a performance, or a custom arrangement — I'd love to hear from you.</p>
+      <div class="contact-methods">
+        <div class="contact-method">
+          <div class="contact-method-icon">✉</div>
+          <div class="contact-method-info">
+            <div class="contact-method-label">Email</div>
+            <div class="contact-method-value"><a href="mailto:robin.park.contact@gmail.com">robin.park.contact@gmail.com</a></div>
+          </div>
+        </div>
+        <div class="contact-method">
+          <div class="contact-method-icon">☎</div>
+          <div class="contact-method-info">
+            <div class="contact-method-label">Phone</div>
+            <div class="contact-method-value"><a href="tel:+16098025814">(609) 802-5814</a></div>
+          </div>
+        </div>
+        <div class="contact-method">
+          <div class="contact-method-icon">in</div>
+          <div class="contact-method-info">
+            <div class="contact-method-label">LinkedIn</div>
+            <div class="contact-method-value"><a href="https://www.linkedin.com/in/robin-park-61aa98188/" target="_blank" rel="noopener">Robin Park</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-right">
+      <div class="form-title">Send a message</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="cf-name">Your Name</label>
+          <input class="form-input" id="cf-name" type="text" placeholder="Jane Smith" autocomplete="name"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cf-email">Email Address</label>
+          <input class="form-input" id="cf-email" type="email" placeholder="jane@example.com" autocomplete="email"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="cf-subject">Subject</label>
+        <select class="form-select" id="cf-subject">
+          <option value="">Select a topic…</option>
+          <option>Lesson Inquiry</option>
+          <option>Performance / Booking</option>
+          <option>Custom Arrangement</option>
+          <option>Sheet Music Question</option>
+          <option>General Inquiry</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="cf-message">Message</label>
+        <textarea class="form-textarea" id="cf-message" placeholder="Tell me about yourself and what you're looking for…"></textarea>
+      </div>
+      <button class="form-submit" onclick="submitContactForm()">Send Message</button>
+      <div class="form-success" id="form-success">
+        Thank you — your message has been sent. I'll be in touch soon.
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-name">Robin Park</div>
+    <ul class="footer-links">
+      <li><a href="#" onclick="showPage('home');return false;">Home</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Robin Park</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════ SCRIPTS -->
+<script>
+const SHEET_ID = '11s0uOAtTLMFT7lUzF2ZHMUg99Yt1lwBp20BXn-9_H2Y';
+
+function sheetUrl(tabName) {
+  return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tabName)}`;
+}
+
+function esc(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function fetchSheet(tabName) {
+  const direct = sheetUrl(tabName);
+  const proxies = [
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(direct)}`,
+    `https://corsproxy.io/?url=${encodeURIComponent(direct)}`,
+    `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(direct)}`,
+  ];
+
+  async function tryFetch(url) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    try {
+      const res = await fetch(url, { signal: controller.signal });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      if (text.trim().startsWith('<')) throw new Error('HTML_RESPONSE');
+      return text;
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  // Try direct first
+  try { return csvParse(await tryFetch(direct)); } catch(e) {}
+
+  // Try each proxy in order
+  for (const proxy of proxies) {
+    try {
+      const text = await tryFetch(proxy);
+      return csvParse(text);
+    } catch(e) {
+      if (e.message === 'HTML_RESPONSE') {
+        throw new Error(
+          `Sheet "${tabName}" returned HTML instead of CSV. ` +
+          `Check that the tab is named exactly "${tabName}" (case-sensitive) ` +
+          `and that the sheet is published via File → Share → Publish to web.`
+        );
+      }
+      // Try next proxy
+    }
+  }
+
+  throw new Error(
+    `Could not load sheet "${tabName}" after trying direct and all proxies. ` +
+    `This is a CORS issue when running locally. ` +
+    `Try hosting the file online (GitHub Pages, Netlify) for a permanent fix.`
+  );
+}
+
+function csvParse(text) {
+  const lines = text.trim().split('\n');
+  if (lines.length < 2) return [];
+  const headers = csvLine(lines[0]);
+  return lines.slice(1).map(line => {
+    const vals = csvLine(line);
+    const obj = {};
+    headers.forEach((h, i) => obj[h.trim()] = (vals[i] || '').trim());
+    return obj;
+  }).filter(r => Object.values(r).some(v => v));
+}
+
+function csvLine(line) {
+  const result = []; let cur = '', inQuote = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { if (inQuote && line[i+1]==='"') { cur+='"'; i++; } else inQuote=!inQuote; }
+    else if (c===',' && !inQuote) { result.push(cur); cur=''; }
+    else cur+=c;
+  }
+  result.push(cur); return result;
+}
+
+function withLoading(el, asyncFn) {
+  el.innerHTML = '<p class="loading-text section-text">Loading…</p>';
+  return asyncFn().catch(err => {
+    console.error('[Sheets]', err.message);
+    el.innerHTML = `<p class="error-text section-text">⚠️ ${esc(err.message)}</p>`;
+  });
+}
+
+// ── Nav ──────────────────────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name)?.classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.dataset.page === name);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('navLinks')?.classList.remove('open');
+  if (name === 'about' && !window._bioLoaded) loadBio();
+  if (name === 'lessons' && !window._lessonsLoaded) loadLessons();
+  if (name === 'schedule' && !window._scheduleLoaded) loadSchedule();
+  if (name === 'media' && !window._mediaLoaded) loadMedia();
+  if (name === 'sheet-music' && !window._sheetLoaded) loadSheetMusic();
+}
+
+function toggleMenu() { document.getElementById('navLinks')?.classList.toggle('open'); }
+
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name)?.classList.add('active');
+  if (name === 'repertoire' && !window._repLoaded) loadRepertoire();
+}
+
+// ── Nav scroll effect ────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ── Biography ────────────────────────────────────────────
+async function loadBio() {
+  window._bioLoaded = true;
+  const bioDiv = document.getElementById('bio-text');
+  const hlUl = document.getElementById('bio-highlights');
+  await withLoading(bioDiv, async () => {
+    const rows = await fetchSheet('Biography');
+    const titleRow = rows.find(r => r.Field === 'Title');
+    if (titleRow) document.getElementById('bio-title').textContent = titleRow.Value;
+    const paras = rows.filter(r => r.Field?.startsWith('Paragraph'));
+    bioDiv.innerHTML = paras.length ? paras.map(p => `<p>${esc(p.Value)}</p>`).join('') : '<p>Biography coming soon.</p>';
+    const highlights = rows.filter(r => r.Field?.startsWith('Highlight'));
+    hlUl.innerHTML = highlights.length ? highlights.map(h => `<li>${esc(h.Value)}</li>`).join('') : '<li>Highlights coming soon.</li>';
+  });
+}
+
+// ── Repertoire ───────────────────────────────────────────
+async function loadRepertoire() {
+  window._repLoaded = true;
+  const el = document.getElementById('repertoire-container');
+  await withLoading(el, async () => {
+    const rows = await fetchSheet('Repertoire');
+    const cats = {};
+    rows.forEach(r => { const c = r.Category || 'General'; if (!cats[c]) cats[c] = []; cats[c].push(r); });
+    let html = '';
+    for (const [cat, items] of Object.entries(cats)) {
+      html += `<h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:var(--gold);margin:40px 0 16px;letter-spacing:0.04em;">${esc(cat)}</h3>`;
+      html += `<div class="schedule-table-wrap"><table class="repertoire-table"><thead><tr><th>Work</th><th>Composer</th><th>Notes</th></tr></thead><tbody>`;
+      items.forEach(r => { html += `<tr><td>${esc(r.Title)}</td><td>${esc(r.Composer)}</td><td>${esc(r.Notes)}</td></tr>`; });
+      html += '</tbody></table></div>';
+    }
+    el.innerHTML = html || '<p class="section-text">Repertoire coming soon.</p>';
+  });
+}
+
+// ── Lessons ──────────────────────────────────────────────
+async function loadLessons() {
+  window._lessonsLoaded = true;
+  const grid = document.getElementById('pricing-grid');
+  await withLoading(grid, async () => {
+    const rows = await fetchSheet('Lessons');
+    const intro = rows.find(r => r.Type === 'Intro');
+    document.getElementById('lessons-intro-text').textContent = intro?.Description || 'Tailored instruction for all levels, from beginners to advanced students.';
+    const offerings = rows.filter(r => r.Type !== 'Intro');
+    if (offerings.length) {
+      grid.innerHTML = offerings.map(p => `
+        <div class="pricing-card">
+          <div class="pricing-duration">${esc(p.Type)}</div>
+          <div class="pricing-amount"><sup>$</sup>${esc(p.Fee)}</div>
+          <p class="pricing-period">per lesson</p>
+          <p style="font-size:0.84rem;color:var(--muted);margin-top:12px;line-height:1.6;">${esc(p.Description)}</p>
+        </div>`).join('');
+    } else {
+      grid.innerHTML = '<p class="section-text" style="grid-column:1/-1">Pricing info coming soon.</p>';
+    }
+  });
+}
+
+// ── Schedule ─────────────────────────────────────────────
+async function loadSchedule() {
+  window._scheduleLoaded = true;
+  const el = document.getElementById('schedule-container');
+  await withLoading(el, async () => {
+    const rows = await fetchSheet('Schedule');
+    if (!rows.length) { el.innerHTML = '<p class="section-text">No upcoming events at this time. Check back soon!</p>'; return; }
+    let html = `<div class="schedule-table-wrap"><table class="schedule-table"><thead><tr><th>Date</th><th>Event</th><th>Venue</th><th>Location</th><th>Type</th><th>Notes</th></tr></thead><tbody>`;
+    rows.forEach(r => {
+      const typeBadge = r.Type ? `<span class="badge badge-gold">${esc(r.Type)}</span>` : '';
+      html += `<tr><td>${esc(r.Date)}</td><td>${esc(r.Title)}</td><td>${esc(r.Venue)}</td><td>${esc(r.Location)}</td><td>${typeBadge}</td><td>${esc(r.Notes)}</td></tr>`;
+    });
+    html += '</tbody></table></div>';
+    el.innerHTML = html;
+  });
+}
+
+// ── Media ────────────────────────────────────────────────
+async function loadMedia() {
+  window._mediaLoaded = true;
+  const el = document.getElementById('media-container');
+  await withLoading(el, async () => {
+    const rows = await fetchSheet('Media');
+    if (!rows.length) { el.innerHTML = '<p class="section-text">Media coming soon.</p>'; return; }
+    function ytEmbed(url) {
+      if (!url) return null;
+      const m = url.match(/(?:youtu\.be\/|youtube\.com\/watch\?v=|youtube\.com\/embed\/)([A-Za-z0-9_-]{11})/);
+      return m ? `https://www.youtube.com/embed/${m[1]}` : null;
+    }
+    const cards = rows.map(r => {
+      const embed = ytEmbed(r.URL);
+      const thumb = embed
+        ? `<div class="media-thumb"><iframe src="${esc(embed)}" allowfullscreen loading="lazy" title="${esc(r.Title)}"></iframe></div>`
+        : `<div class="media-thumb"><div class="media-thumb-placeholder">🎵</div></div>`;
+      const link = r.URL ? `<a class="media-link" href="${esc(r.URL)}" target="_blank" rel="noopener">View ↗</a>` : '';
+      return `<div class="media-card">${thumb}<div class="media-info"><div class="media-type">${esc(r.Type)||'Performance'}</div><div class="media-title">${esc(r.Title)}</div><div class="media-subtitle">${esc(r.Subtitle)}</div>${link}</div></div>`;
+    }).join('');
+    el.innerHTML = `<div class="media-grid">${cards}</div>`;
+  });
+}
+
+// ── Sheet Music ──────────────────────────────────────────
+async function loadSheetMusic() {
+  window._sheetLoaded = true;
+  const el = document.getElementById('sheet-container');
+  await withLoading(el, async () => {
+    const rows = await fetchSheet('SheetMusic');
+    if (!rows.length) { el.innerHTML = '<p class="section-text">Sheet music coming soon.</p>'; return; }
+    const cards = rows.map(r => {
+      const link = r.URL ? `<a class="sheet-link" href="${esc(r.URL)}" target="_blank" rel="noopener">↓ Download / View</a>` : '';
+      const price = r.Price ? `<span class="badge badge-dark">${esc(r.Price)}</span>` : '';
+      return `<div class="sheet-card"><div class="sheet-cat">${esc(r.Category)||'Arrangement'} ${price}</div><div class="sheet-title">${esc(r.Title)}</div><div class="sheet-instr">${esc(r.Instrumentation)}</div><div class="sheet-desc">${esc(r.Description)}</div>${link}</div>`;
+    }).join('');
+    el.innerHTML = `<div class="sheet-grid">${cards}</div>`;
+  });
+}
+
+// ── Contact ──────────────────────────────────────────────
+function submitContactForm() {
+  const name = document.getElementById('cf-name').value.trim();
+  const email = document.getElementById('cf-email').value.trim();
+  const subject = document.getElementById('cf-subject').value;
+  const message = document.getElementById('cf-message').value.trim();
+  if (!name || !email || !message) { alert('Please fill in your name, email, and message.'); return; }
+  const mailtoLink = `mailto:robin.park.contact@gmail.com?subject=${encodeURIComponent('[Website] ' + (subject || 'Message from ' + name))}&body=${encodeURIComponent('From: ' + name + '\nEmail: ' + email + '\n\n' + message)}`;
+  window.location.href = mailtoLink;
+  document.getElementById('form-success').style.display = 'block';
+  document.getElementById('cf-name').value = '';
+  document.getElementById('cf-email').value = '';
+  document.getElementById('cf-subject').value = '';
+  document.getElementById('cf-message').value = '';
+}
+</script>
+</body>
+</html>
